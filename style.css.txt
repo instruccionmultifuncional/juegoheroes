@@ -1,0 +1,38 @@
+#juego {
+  width: 400px;
+  height: 300px;
+  border: 1px solid black;
+  position: relative; /* Permite posicionar elementos dentro del juego */
+  background-image: url("ciudad.jpg"); /* Imagen de fondo del juego */
+  overflow: hidden;  /* Evita que el contenido se desborde del contenedor */
+}
+
+#personaje {
+  width: 30px;
+  height: 50px;
+  background-image: url("superheroe.png"); /* Imagen del personaje */
+  position: absolute;
+  bottom: 0; /* Comienza en el suelo */
+  left: 10px; /* Comienza a la izquierda */
+}
+
+.estrella {
+  width: 20px;
+  height: 20px;
+  background-image: url("estrella.png"); /* Imagen de las estrellas */
+  position: absolute;
+}
+
+#estrella1 { top: 50px; left: 150px; }
+#estrella2 { top: 120px; left: 280px; }
+#estrella3 { top: 200px; left: 80px; }
+
+#marcador {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: sans-serif;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semi-transparente */
+  color: white;
+  padding: 5px;
+}

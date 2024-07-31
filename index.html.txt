@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <title>Juego de Superh\u00e9roes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="juego">
+    <div id="personaje"></div>
+    <script>
+      // Array para almacenar las estrellas y crearlas din\u00e1micamente
+      var estrellas = [
+        { x: 150, y: 50 },
+        { x: 280, y: 120 },
+        { x: 80, y: 200 }
+      ];
+      for (var i = 0; i < estrellas.length; i++) {
+        document.write('<div class="estrella" id="estrella' + (i + 1) + '" style="left: ' + estrellas[i].x + 'px; top: ' + estrellas[i].y + 'px;"></div>');
+      }
+    </script>
+    <div id="marcador">Estrellas: 0 | Tiempo: 60</div>
+  </div>
+  <script src="script.js"></script> <body>
+</html>

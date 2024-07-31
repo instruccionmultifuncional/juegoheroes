@@ -1,0 +1,117 @@
+// Configuración del juego
+var velocidadPersonaje = 5; // Velocidad de movimiento del personaje
+var gravedad = 0.5;       // Fuerza de gravedad que afecta al personaje
+var salto = 15;           // Altura del salto del personaje
+var tiempoTotal = 60;     // Tiempo total del juego en segundos
+var tiempoRestante = tiempoTotal; // Variable para llevar la cuenta del tiempo
+var estrellasRecogidas = 0; // Contador de estrellas recogidas
+
+// Obtener referencias a los elementos del juego
+var personaje = document.getElementById("personaje");
+var marcador = document.getElementById("marcador");
+var estrellas = document.querySelectorAll(".estrella"); 
+
+// Posición inicial del personaje
+var personajeX = 10;
+var personajeY = 0;
+var velocidadY = 0; 
+
+// Función para mover al personaje
+function moverPersonaje(direccion) {
+  if (direccion === "izquierda") {
+    personajeX -= velocidadPersonaje; 
+  } else if (direccion === "derecha") {
+    personajeX += velocidadPersonaje; 
+  }
+
+  // Limitar el movimiento dentro del escenario
+  personajeX = Math.max(0, Math.min(personajeX, 370)); 
+
+  // Actualizar la posición del personaje en la pantalla
+  personaje.style.left = personajeX + "px";
+}
+
+// Función para hacer saltar al personaje
+function saltarPersonaje() {
+  if (personajeY === 0) { 
+    velocidadY = salto;
+  }
+}
+
+// Función para aplicar la gravedad al personaje
+function aplicarGravedad() {
+  if (personajeY > 0) {
+    velocidadY -= gravedad; 
+    personajeY += velocidadY;
+    personajeY = Math.max(0, personajeY); 
+    personaje.style.bottom = personajeY + "px";
+  }
+}
+
+// Función para verificar si el personaje ha recogido una estrella
+function verificarColision(estrella) {
+  var estrellaX = parseInt(estrella.style.left);
+  var estrellaY = parseInt(estrella.style.top);
+
+  if (
+    personajeX < estrellaX + estrella.offsetWidth &&
+    personajeX + personaje.offsetWidth > estrellaX &&
+    personajeY < estrellaY + estrella.offsetHeight &&
+    personajeY + personaje.offsetHeight > estrellaY
+  ) {
+    return true; // ¡Colisión detectada!
+  } else {
+    return false; // No hay colisión
+  }
+}
+
+// Función para recoger una estrella
+function recogerEstrella(estrella) {
+  estrellasRecogidas++;
+  marcador.innerHTML = "Estrellas: " + estrellasRecogidas + " | Tiempo: " + tiempoRestante;
+  estrella.style.display = "none"; // Esconder la estrella recogida
+}
+
+// Función para actualizar el temporizador y el marcador
+function actualizarMarcador() {
+  tiempoRestante--;
+  marcador.innerHTML = "Estrellas: " + estrellasRecogidas + " | Tiempo: " + tiempoRestante;
+
+  if (tiempoRestante === 0 || estrellasRecogidas === estrellas.length) {
+    finalizarJuego();
+  }
+}
+
+// Función para finalizar el juego
+function finalizarJuego() {
+  clearInterval(intervaloMarcador); 
+  if (estrellasRecogidas === estrellas.length) {
+    alert("¡Ganaste! ¡Recogiste todas las estrellas!");
+  } else {
+    alert("¡Tiempo agotado! ¡El villano ganó!");
+  }
+}
+
+// Bucle principal del juego
+setInterval(function() {
+  aplicarGravedad();
+  for (var i = 0; i < estrellas.length; i++) {
+    if (verificarColision(estrellas[i])) {
+      recogerEstrella(estrellas[i]);
+    }
+  }
+}, 50); // Actualizar cada 50 milisegundos
+
+// Temporizador para actualizar el marcador cada segundo
+var intervaloMarcador = setInterval(actualizarMarcador, 1000);
+
+// Detectar teclas presionadas
+document.addEventListener("keydown", function(event) {
+  if (event.code === "ArrowLeft") {
+    moverPersonaje("izquierda");
+  } else if (event.code === "ArrowRight") {
+    moverPersonaje("derecha");
+  } else if (event.code === "Space") {
+    saltarPersonaje();
+  }
+});
